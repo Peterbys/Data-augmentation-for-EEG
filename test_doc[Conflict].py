@@ -28,7 +28,8 @@ raw.pick_types(meg=False,eeg=True)
 fs = raw.info['sfreq']
 data = raw[:][0][:,0:]
 #%%
-data_train = data[:,0:30000]
+data_train = data[:,0:100000]
+data_test = data[:,100000:]
 #%% Preprocess data
 train = convert_data(data_train,fs)
 test = convert_data(data_test,fs)
@@ -52,13 +53,13 @@ subjects_dir = data_path + '/subjects'
 subject = 'sample'
 src = mne.setup_source_space(subject, spacing='oct6', add_dist='patch',
                              subjects_dir=subjects_dir)
-#%%
+
 a = range(60)    
 b = [x for i,x in enumerate(a) if i!=52]  
 conductivity_base = (0.3, 0.006, 0.3) 
 gain = finalize_model(conductivity_base,src,trans,subjects_dir,raw_fname)['sol']['data'][b,:]
 X = np.linalg.pinv(gain) @ data_train
-#del gain
+del gain
 #%%
 K = 8
 conductivity = np.zeros((K,3))
