@@ -4,6 +4,17 @@ Created on Wed Apr  8 13:58:56 2020
 
 @author: P
 """
+from mne.datasets import sample
+data_path = sample.data_path()
+trans = data_path + '/MEG/sample/sample_audvis_raw-trans.fif'
+
+# the raw file containing the channel location + types
+raw_fname = data_path + '/MEG/sample/sample_audvis_raw.fif'
+# The paths to Freesurfer reconstructions
+subjects_dir = data_path + '/subjects'
+subject = 'sample'
+src = mne.setup_source_space(subject, spacing='oct6', add_dist='patch',
+                             subjects_dir=subjects_dir)
 model = mne.make_bem_model(subject='sample', ico=4,
 conductivity=conductivity_base,
 subjects_dir=subjects_dir)
@@ -35,8 +46,8 @@ fwd = mne.convert_forward_solution(mne.make_forward_solution(raw.info, trans=tra
 #%%
 data_morph = fwd['sol']['data'][:,:] @ stc_new.data
 #%%
-plt.plot(data_morph[0,:]-np.mean(data_morph[0,:]))
-plt.plot(data_train[0,:]-np.mean(data_train[0,:]),color="red")
+plt.plot(data_morph[0,:]-np.mean(data_morph[0,:]),label ="Morped data")
+plt.plot(data_train[0,:]-np.mean(data_train[0,:]),color="red",label = "Original data")
 #%%
 #%%
 train = convert_data(data_train,fs)
@@ -44,13 +55,10 @@ test = convert_data(data_morph,fs)
 #%%
 pca = PCA(n_components=5)
 pca.fit(train)
-train_pca = pca.transform(train)
-test_pca = pca.transform(test)
-#%%
-
+train_morph_pca = pca.transform(train)
+test_morph_pca = pca.transform(test)
 
 #%%
-
 
 
 lik_pre,deltas = evaluate_density(train_pca,test_pca)
