@@ -17,18 +17,20 @@ import scipy.signal
 #%%
 face_normal_event = [5,6,7,13,14,15]
 face_scrambled_event = [17,18,19]
+exclude = ["EEG061","EEG062","EEG063"]
 len_record = 0.7
 len_before = 0.25
 runs = 6
 subjects_normal_dict = {}
 subjects_scrambled_dict = {}
-subjects = ['01','02','03']
+#subjects = ['01','02','03']
 downsample = 10
 #subjects = ['01','02','03','04','05','06','07','08','09']
+subjects = ['03']
 for subject in subjects:
-    root = '/media/peter/Ekstren/ds000117-download/derivatives/meg_derivatives/sub-'+str(subject)+'/ses-meg/meg/'
-    subjects_normal_dict[subject] = get_data.get_events_data_all_runs(root, subject, face_normal_event, len_record, len_before, runs,downsample)
-    subjects_scrambled_dict[subject] = get_data.get_events_data_all_runs(root, subject, face_scrambled_event, len_record, len_before, runs,downsample)
+    root = 'E:/ds000117-download/derivatives/meg_derivatives/sub-'+str(subject)+'/ses-meg/meg/'
+    subjects_normal_dict[subject] = get_data.get_events_data_all_runs(root, subject, face_normal_event, len_record, len_before, runs,downsample,exclude)
+    subjects_scrambled_dict[subject] = get_data.get_events_data_all_runs(root, subject, face_scrambled_event, len_record, len_before, runs,downsample,exclude)
 
 faces_normal = get_data.gen_vectorized_data(subjects_normal_dict)
 faces_scrambled = get_data.gen_vectorized_data(subjects_scrambled_dict)
@@ -44,7 +46,7 @@ classification_models.print_logistic_regression(X, y, 5, 'figs/initial_logistic_
 from sklearn.linear_model import LogisticRegression
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
-sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix
 subjects_normal_dict_test = {}
 subjects_scrambled_dict_test = {}
 subjects = ['04']

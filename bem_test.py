@@ -14,10 +14,10 @@ raw_fname = data_path + '/MEG/sample/sample_audvis_raw.fif'
 conductivity_base = (0.3, 0.006, 0.3) 
 #%%
 # The paths to Freesurfer reconstructions
-subjects_dir = "E:"
+subjects_dir = "F:"
 subject = 'sub-01_free'
-src = mne.setup_source_space(subject, spacing='oct6', add_dist='patch',
-                             subjects_dir=subjects_dir)
+#src = mne.setup_source_space(subject, spacing='oct6', add_dist='patch',
+                             #subjects_dir=subjects_dir)
 #%%
 model = mne.make_bem_model(subject=subject, ico=4,
 conductivity=conductivity_base,

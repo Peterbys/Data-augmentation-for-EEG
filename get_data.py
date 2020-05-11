@@ -21,14 +21,15 @@ def get_events_data(raw,eventIDs,events,len_record,len_before,downsample):
             data_list = np.concatenate((data_list,np.apply_along_axis(sig.decimate,1,data[:,sample_corrected-int(len_before):sample_corrected+int(len_record)],q=downsample)[None,:,:]))
     return data_list
 
-def get_events_data_all_runs(root,subject,eventIDs,len_record,len_before,runs,downsample):
+def get_events_data_all_runs(root,subject,eventIDs,len_record,len_before,runs,downsample,exclude):
+    #% exlude = ["EEG061","EEG062","EEG063"]
     fname_raw = root  + 'sub-' + subject +'_ses-meg_task-facerecognition_run-01_proc-sss_meg.fif'
     raw = mne.io.read_raw_fif(fname_raw,preload=True)
     raw.set_eeg_reference('average', projection=True)  # set average reference.
     raw.apply_proj()
     fs = raw.info['sfreq']
     events = mne.find_events(raw,stim_channel="STI101",shortest_event=1)
-    raw.pick_types(eeg=True,meg=False,exclude =["EEG061","EEG062","EEG063"])
+    raw.pick_types(eeg=True,meg=False,exclude = exclude)
     len_before = int(fs * len_before)
     len_record = int(fs * len_record)
     data = get_events_data(raw,eventIDs,events,len_record,len_before,downsample)
@@ -41,7 +42,7 @@ def get_events_data_all_runs(root,subject,eventIDs,len_record,len_before,runs,do
         raw.apply_proj()
         fs = raw.info['sfreq']
         events = mne.find_events(raw,stim_channel="STI101",shortest_event=1)
-        raw.pick_types(eeg=True,meg=False,exclude =["EEG061","EEG062","EEG063"])
+        raw.pick_types(eeg=True,meg=False,exclude =exclude)
         data = np.concatenate((data,get_events_data(raw,eventIDs,events,len_record,len_before,downsample)))
     return data
         
