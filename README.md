@@ -5,9 +5,9 @@ Several packages are needed to run the scripts, including pytorch and mne. In pa
 
 # Contents
 The freesurfer directory contains the scripts to convert the surfces to an .obj format as described in the thesis.
-helper_functions.py contains helper functions used
-neural_networks.py contain the neural network architectures and classes for training sets
-cnn_example.py contains an example of training a convolutional network
+helper_functions.py contains helper functions used\\
+neural_networks.py contain the neural network architectures and classes for training sets\\
+cnn_example.py contains an example of training a convolutional network\\
 
 
 # Data
