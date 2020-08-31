@@ -11,6 +11,7 @@ cnn_example.py contains an example of training a convolutional network<br>
 
 
 # Data
+The data can be found at https://gofile.io/d/i35R7A <br>
 There are two data files, fwd_list.pkl containing all the forward models for the subject. The keys for this list is 01,02,...,16<br>
 The other file is the data_dsfactor9.pkl, containing all the different epoched data. The data is organized as a nested list, where the keys in order are:<br>
 1, subjects: 01,02...,16<br>
